@@ -1,10 +1,10 @@
 FROM ubuntu AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
-ARG REF=yespower-0.5
 ARG REPO=cryptozeny/bitzeny
+ARG REF=yespower-0.5
 ARG BINARY=bitzeny
-ARG JOBS=8
+ARG JOBS=2
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -40,5 +40,5 @@ WORKDIR ..
 RUN ./autogen.sh && \
     CONFIG_SITE=depends/x86_64-w64-mingw32/share/config.site  ./configure --without-miniupnpc --disable-tests && \
     make -j${JOBS}
-  
+
 RUN ls
