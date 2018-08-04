@@ -16,7 +16,8 @@ RUN ( apt-get update -qq && \
       pkg-config \
       software-properties-common \
       git wget curl bsdmainutils \
-      g++-mingw-w64-x86-64 unzip && \
+      g++-mingw-w64-x86-64 unzip \
+      qtbase5-dev-tools qtbase5-dev && \
     update-alternatives --config x86_64-w64-mingw32-g++ && \
     add-apt-repository -y ppa:bitcoin/bitcoin && \
     apt-get update -qq && \
