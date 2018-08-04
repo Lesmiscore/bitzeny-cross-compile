@@ -28,8 +28,6 @@ WORKDIR /${BINARY}
 
 RUN git checkout "$REF" && \
     rm -rf depends/ && \
-    unzip -q /bitcoin-master.zip 'bitcoin-master/depends/*' && \
-    mv bitcoin-master/depends/ .\
     wget -qO- https://github.com/bitcoin/bitcoin/archive/v0.16.2.tar.gz | tar -xvJf - --strip-components=1 depends | wc -l
 
 WORKDIR depends
