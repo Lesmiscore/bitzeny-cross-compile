@@ -24,18 +24,18 @@ RUN ( apt-get update -qq && \
     apt-get install -y -qq libdb4.8-dev libdb4.8++-dev && \
     git clone https://github.com/${REPO}.git /${BINARY} ) 2>&1 | wc -l
 
-RUN wget https://github.com/bitcoin/bitcoin/archive/master.zip -O /bitcoin-master.zip
+RUN wget https://github.com/bitcoin/bitcoin/archive/master.zip -qO /bitcoin-master.zip
 
 WORKDIR /${BINARY}
 
 RUN git checkout "$REF" && \
     rm -rf depends/ && \
-    unzip /bitcoin-master.zip 'bitcoin-master/depends/*' && \
+    unzip -q /bitcoin-master.zip 'bitcoin-master/depends/*' && \
     mv bitcoin-master/depends/ .
 
 WORKDIR depends
 
-RUN make HOST=x86_64-w64-mingw32 -j${JOBS}
+RUN make HOST=x86_64-w64-mingw32 -j${JOBS} | grep -v '^$'
 
 WORKDIR ..
 
