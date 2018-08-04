@@ -6,7 +6,7 @@ ARG REF=yespower-0.5
 ARG BINARY=bitzeny
 ARG JOBS=2
 
-RUN apt-get update && \
+RUN apt-get update -qq && \
     apt-get upgrade -y -qq && \
     apt-get install -y -qq build-essential \
       libtool autotools-dev autoconf \
@@ -19,7 +19,7 @@ RUN apt-get update && \
       g++-mingw-w64-x86-64 unzip && \
     update-alternatives --config x86_64-w64-mingw32-g++ && \
     add-apt-repository -y ppa:bitcoin/bitcoin && \
-    apt-get update && \
+    apt-get update -qq && \
     apt-get install -y -qq libdb4.8-dev libdb4.8++-dev && \
     git clone https://github.com/${REPO}.git /${BINARY}
 
@@ -29,7 +29,8 @@ WORKDIR /${BINARY}
 
 RUN git checkout "$REF" && \
     rm -rf depends/ && \
-    unzip /bitcoin-master.zip 'bitcoin-master/depends/*' -d depends/
+    unzip /bitcoin-master.zip 'bitcoin-master/depends/*' && \
+    mv bitcoin-master/depends/ .
 
 WORKDIR depends
 
