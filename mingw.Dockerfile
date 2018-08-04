@@ -29,7 +29,7 @@ WORKDIR /${BINARY}
 
 RUN git checkout "$REF" && \
     rm -rf depends/ && \
-    unzip /bitcoin-master.zip 'depends/*' -d depends/
+    unzip /bitcoin-master.zip 'bitcoin-master/depends/*' -d depends/
 
 WORKDIR depends
 
