@@ -7,8 +7,8 @@ ARG BINARY=bitzeny
 ARG JOBS=2
 
 RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y build-essential \
+    apt-get upgrade -y -qq && \
+    apt-get install -y -qq build-essential \
       libtool autotools-dev autoconf \
       libssl-dev \
       libboost-all-dev \
@@ -20,7 +20,7 @@ RUN apt-get update && \
     update-alternatives --config x86_64-w64-mingw32-g++ && \
     add-apt-repository -y ppa:bitcoin/bitcoin && \
     apt-get update && \
-    apt-get install -y libdb4.8-dev libdb4.8++-dev && \
+    apt-get install -y -qq libdb4.8-dev libdb4.8++-dev && \
     git clone https://github.com/${REPO}.git /${BINARY}
 
 RUN wget https://github.com/bitcoin/bitcoin/archive/master.zip -O /bitcoin-master.zip
