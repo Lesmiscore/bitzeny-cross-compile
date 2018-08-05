@@ -2,26 +2,8 @@ sudo: required
 services:
 - docker
 
-env:
-  matrix:
-    - DEPENDS=0.15.0
-    - DEPENDS=0.15.0.1
-    - DEPENDS=0.15.1rc1
-    - DEPENDS=0.15.1
-    - DEPENDS=0.16.0rc1
-    - DEPENDS=0.16.0rc2
-    - DEPENDS=0.16.0rc3
-    - DEPENDS=0.16.0rc4
-    - DEPENDS=0.16.0
-    - DEPENDS=0.16.1rc1
-    - DEPENDS=0.16.1rc2
-    - DEPENDS=0.16.1
-    - DEPENDS=0.16.2rc1
-    - DEPENDS=0.16.2rc2
-    - DEPENDS=0.16.2
-
 notifications:
   email: false
 script:
-- ./dots.sh docker build -f mingw.Dockerfile --build-arg JOBS=8 --build-arg BTC_DEPENDS_VER=${DEPENDS} .
+- ./dots.sh docker build -f mingw.Dockerfile --build-arg JOBS=8 .
 - docker images

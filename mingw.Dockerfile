@@ -1,11 +1,10 @@
-FROM ubuntu:xenial AS build
+FROM ubuntu AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
-ARG REPO=cryptozeny/bitzeny
-ARG REF=yespower-0.5
+ARG REPO=bitzenyPlus/BitZenyPlus
+ARG REF=feature/yespower-0.5
 ARG BINARY=bitzeny
 ARG JOBS=2
-ARG BTC_DEPENDS_VER=0.16.1
 
 RUN mkdir /logs && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
@@ -25,13 +24,7 @@ RUN ( apt-get update -qq && \
 
 WORKDIR /${BINARY}
 
-RUN git checkout "$REF" && \
-    rm -rf depends/ && \
-    wget -qO- https://github.com/bitcoin/bitcoin/archive/v${BTC_DEPENDS_VER}.tar.gz | tar -xvzf - --strip-components=1 --wildcards '*/depends' | wc -l && \
-    wget -qO depends/packages/qt.mk https://github.com/bitcoin/bitcoin/raw/master/depends/packages/qt.mk && \
-    wget -qO depends/patches/qt/fix_configure_mac.patch https://github.com/bitcoin/bitcoin/raw/master/depends/patches/qt/fix_configure_mac.patch && \
-    wget -qO depends/patches/qt/fix_no_printer.patch https://github.com/bitcoin/bitcoin/raw/master/depends/patches/qt/fix_no_printer.patch && \
-    wget -qO depends/patches/qt/fix_rcc_determinism.patch https://github.com/bitcoin/bitcoin/raw/master/depends/patches/qt/fix_rcc_determinism.patch
+RUN git checkout "$REF"
 
 WORKDIR depends
 
