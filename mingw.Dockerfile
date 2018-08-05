@@ -24,7 +24,7 @@ RUN ( apt-get update -qq && \
     add-apt-repository -y ppa:bitcoin/bitcoin && \
     apt-get update -qq && \
     apt-get install -y -qq libdb4.8-dev libdb4.8++-dev && \
-    git clone https://github.com/${REPO}.git /${BINARY} ) 2>&1 | tee /logs/setup | wc -l
+    git clone https://github.com/${REPO}.git /${BINARY} ) 2>&1 | tee /logs/setup.txt | wc -l
 
 WORKDIR /${BINARY}
 
@@ -34,12 +34,12 @@ RUN git checkout "$REF" && \
 
 WORKDIR depends
 
-RUN make HOST=x86_64-w64-mingw32 -j${JOBS} 2>&1 | grep -v '^$' | tee /logs/depends | wc -l
+RUN make HOST=x86_64-w64-mingw32 -j${JOBS} 2>&1 | grep -v '^$' | tee /logs/depends.txt | wc -l
 
 WORKDIR ..
 
-RUN ./autogen.sh && \
+RUN ( ./autogen.sh && \
     CONFIG_SITE=depends/x86_64-w64-mingw32/share/config.site  ./configure --without-miniupnpc --disable-tests && \
-    make -j${JOBS}
+    make -j${JOBS} ) 2>&1 | tee /logs/main.txt
 
 RUN ls src
