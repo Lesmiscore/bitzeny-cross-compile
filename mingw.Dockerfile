@@ -34,7 +34,7 @@ RUN git checkout "$REF" && \
 WORKDIR depends
 
 RUN set -o pipefail && \
-    make HOST=x86_64-w64-mingw32 -j${JOBS} 2>&1 | grep -v '^$' | tee /logs/depends.txt | wc -l
+    make HOST=x86_64-w64-mingw32 -j${JOBS} 2>&1 | grep -v '^$' | tee /logs/depends.txt | wc -l || ( cat /logs/depends.txt && false )
 
 WORKDIR ..
 
