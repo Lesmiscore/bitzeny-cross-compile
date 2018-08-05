@@ -13,7 +13,8 @@ ARG JOBS=2
 # needed for "set -o pipefail"
 RUN mkdir /logs && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
-RUN ( apt-get update -qq && \
+RUN set -o pipefail && \
+    ( apt-get update -qq && \
     apt-get upgrade -y -qq && \
     apt-get install -y -qq build-essential \
       libtool autotools-dev autoconf \
@@ -21,7 +22,8 @@ RUN ( apt-get update -qq && \
       git curl bsdmainutils \
       g++-mingw-w64-x86-64 tar && \
     echo 1 | update-alternatives --config x86_64-w64-mingw32-g++ && \
-    git clone https://github.com/${REPO}.git /${BINARY} -b ${REF} --depth=1 ) 2>&1 | tee /logs/setup.txt | wc -l
+    git clone https://github.com/${REPO}.git /${BINARY} -b ${REF} --depth=1 ) 2>&1 | tee /logs/setup.txt | wc -l \
+    || cat /logs/setup.txt
 
 WORKDIR /${BINARY}/depends
 

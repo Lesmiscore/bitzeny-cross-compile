@@ -16,6 +16,7 @@ env:
 matrix:
   allow_failures:
     - env: PARENT=ubuntu:cosmic
+    - env: PARENT=ubuntu:trusty
 
 script:
 - ./dots.sh docker build -f mingw.Dockerfile --build-arg JOBS=8 --build-arg PARENT=${PARENT} .
