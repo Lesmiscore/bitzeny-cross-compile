@@ -6,9 +6,7 @@ ARG REF=yespower-0.5
 ARG BINARY=bitzeny
 ARG JOBS=2
 
-ENTRYPOINT ["/bin/bash", "-e", "-c"]
-
-RUN mkdir /logs
+RUN mkdir /logs && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
 RUN ( apt-get update -qq && \
     apt-get upgrade -y -qq && \
