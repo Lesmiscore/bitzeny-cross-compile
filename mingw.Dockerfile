@@ -30,7 +30,7 @@ WORKDIR /${BINARY}
 
 RUN git checkout "$REF" && \
     rm -rf depends/ && \
-    wget -qO- https://github.com/bitcoin/bitcoin/archive/v0.16.2.tar.gz | tar -xvzf - --strip-components=1 --wildcards '*/depends' | wc -l
+    wget -qO- https://github.com/bitcoin/bitcoin/archive/v0.16.1.tar.gz | tar -xvzf - --strip-components=1 --wildcards '*/depends' | wc -l
 
 WORKDIR depends
 
