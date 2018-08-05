@@ -7,7 +7,6 @@ notifications:
 
 env:
   matrix:
-    - PARENT=ubuntu
     - PARENT=ubuntu:bionic
     - PARENT=ubuntu:cosmic
     - PARENT=ubuntu:trusty
@@ -15,7 +14,6 @@ env:
 
 matrix:
   allow_failures:
-    - env: PARENT=ubuntu:cosmic
     - env: PARENT=ubuntu:trusty
 
 script:
