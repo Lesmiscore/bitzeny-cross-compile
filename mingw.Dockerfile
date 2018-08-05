@@ -42,4 +42,4 @@ RUN ./autogen.sh && \
     CONFIG_SITE=depends/x86_64-w64-mingw32/share/config.site  ./configure --without-miniupnpc --disable-tests && \
     make -j${JOBS}
 
-RUN ls
+RUN ls src
