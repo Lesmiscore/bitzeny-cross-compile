@@ -26,7 +26,8 @@ WORKDIR /${BINARY}
 
 RUN git checkout "$REF" && \
     rm -rf depends/ && \
-    wget -qO- https://github.com/bitcoin/bitcoin/archive/v0.16.1.tar.gz | tar -xvzf - --strip-components=1 --wildcards '*/depends' | wc -l
+    wget -qO- https://github.com/bitcoin/bitcoin/archive/v0.16.1.tar.gz | tar -xvzf - --strip-components=1 --wildcards '*/depends' | wc -l && \
+    wget -qOdepends/packages/qt.mk https://github.com/bitcoin/bitcoin/raw/master/depends/packages/qt.mk
 
 #RUN wget -qO- https://cdn.rawgit.com/nao20010128nao/1b8220c451308683e4f82b7c2ad5f1e2/raw/1df2fe71d89cc68fdfd2abe4768f27aa50e6cff0/bitcoin-qt.diff | patch -p1
 
