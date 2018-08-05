@@ -22,9 +22,6 @@ RUN ( apt-get update -qq && \
     apt-get install -y -qq libdb4.8-dev libdb4.8++-dev && \
     git clone https://github.com/${REPO}.git /${BINARY} -b ${REF} --depth=1 ) 2>&1 | tee /logs/setup.txt | wc -l
 
-#WORKDIR /${BINARY}
-#WORKDIR depends
-
 WORKDIR /${BINARY}/depends
 
 RUN set -o pipefail && \
@@ -35,7 +32,7 @@ WORKDIR ..
 RUN set -o pipefail && \
     ( ./autogen.sh && \
     CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site  \
-      ./configure --without-miniupnpc --disable-tests && \
+      ./configure --without-miniupnpc --disable-tests --disable-bench && \
     make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( cat config.log && false )
 
 RUN ls src
