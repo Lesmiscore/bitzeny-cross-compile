@@ -1,11 +1,16 @@
+# CC0
+
 FROM ubuntu AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
+
+# modify following ARGs to compile another variant
 ARG REPO=bitzenyPlus/BitZenyPlus
 ARG REF=feature/yespower-0.5
 ARG BINARY=bitzeny
 ARG JOBS=2
 
+# needed for "set -o pipefail"
 RUN mkdir /logs && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
 RUN ( apt-get update -qq && \
