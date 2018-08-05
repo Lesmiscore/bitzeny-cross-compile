@@ -1,4 +1,4 @@
-FROM ubuntu AS build
+FROM ubuntu:xenial AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG REPO=cryptozeny/bitzeny
