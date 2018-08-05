@@ -12,9 +12,6 @@ RUN ( apt-get update -qq && \
     apt-get upgrade -y -qq && \
     apt-get install -y -qq build-essential \
       libtool autotools-dev autoconf \
-      libssl-dev \
-      libboost-all-dev \
-      libevent-dev \
       pkg-config \
       software-properties-common \
       git wget curl bsdmainutils \
