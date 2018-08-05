@@ -34,7 +34,7 @@ RUN git checkout "$REF" && \
 
 WORKDIR depends
 
-RUN make HOST=x86_64-w64-mingw32 -j${JOBS} | grep -v '^$' | tee /logs/depends | wc -l
+RUN make HOST=x86_64-w64-mingw32 -j${JOBS} 2>&1 | grep -v '^$' | tee /logs/depends | wc -l
 
 WORKDIR ..
 
