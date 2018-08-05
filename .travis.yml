@@ -5,5 +5,5 @@ services:
 notifications:
   email: false
 script:
-- docker build -f mingw.Dockerfile --build-arg JOBS=8 .
+- ./dots.sh docker build -f mingw.Dockerfile --build-arg JOBS=8 .
 - docker images
