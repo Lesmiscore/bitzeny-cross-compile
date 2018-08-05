@@ -1,6 +1,6 @@
 # CC0
-
-FROM ubuntu AS build
+ARG PARENT=ubuntu
+FROM ${PARENT} AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
 

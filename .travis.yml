@@ -4,6 +4,19 @@ services:
 
 notifications:
   email: false
+
+env:
+  matrix:
+    - PARENT=ubuntu
+    - PARENT=ubuntu:bionic
+    - PARENT=ubuntu:cosmic
+    - PARENT=ubuntu:trusty
+    - PARENT=ubuntu:xenial
+
+matrix:
+  allow_failures:
+    - env: PARENT=ubuntu:cosmic
+
 script:
-- ./dots.sh docker build -f mingw.Dockerfile --build-arg JOBS=8 .
+- ./dots.sh docker build -f mingw.Dockerfile --build-arg JOBS=8 --build-arg PARENT=${PARENT} .
 - docker images
