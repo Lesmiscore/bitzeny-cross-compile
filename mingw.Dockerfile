@@ -6,6 +6,8 @@ ARG REF=yespower-0.5
 ARG BINARY=bitzeny
 ARG JOBS=2
 
+RUN mkdir /logs
+
 RUN ( apt-get update -qq && \
     apt-get upgrade -y -qq && \
     apt-get install -y -qq build-essential \
@@ -22,7 +24,7 @@ RUN ( apt-get update -qq && \
     add-apt-repository -y ppa:bitcoin/bitcoin && \
     apt-get update -qq && \
     apt-get install -y -qq libdb4.8-dev libdb4.8++-dev && \
-    git clone https://github.com/${REPO}.git /${BINARY} ) 2>&1 | wc -l
+    git clone https://github.com/${REPO}.git /${BINARY} ) 2>&1 | tee /logs/setup | wc -l
 
 WORKDIR /${BINARY}
 
@@ -32,7 +34,7 @@ RUN git checkout "$REF" && \
 
 WORKDIR depends
 
-RUN make HOST=x86_64-w64-mingw32 -j${JOBS} | grep -v '^$'
+RUN make HOST=x86_64-w64-mingw32 -j${JOBS} | grep -v '^$' | tee /logs/depends | wc -l
 
 WORKDIR ..
 
