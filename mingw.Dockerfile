@@ -17,7 +17,7 @@ RUN ( apt-get update -qq && \
     apt-get upgrade -y -qq && \
     apt-get install -y -qq build-essential \
       libtool autotools-dev autoconf \
-      pkg-config \
+      pkg-config tree \
       software-properties-common \
       git wget curl bsdmainutils \
       g++-mingw-w64-x86-64 tar && \
@@ -40,4 +40,4 @@ RUN set -o pipefail && \
       ./configure --without-miniupnpc --disable-tests --disable-bench && \
     make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( cat config.log && false )
 
-RUN ls src
+RUN tree -fai src/ | grep '\.exe$'
