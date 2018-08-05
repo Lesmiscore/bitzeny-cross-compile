@@ -42,8 +42,7 @@ WORKDIR ..
 RUN set -o pipefail && \
     ( ./autogen.sh && \
     CONFIG_SITE=depends/x86_64-w64-mingw32/share/config.site  \
-      ./configure --without-miniupnpc --disable-tests \
-      --config-cache=depends/x86_64-w64-mingw32/share/config.cache && \
-    make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( cat config.log && false )
+      ./configure --without-miniupnpc --disable-tests && \
+    make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( ls && false )
 
 RUN ls src
