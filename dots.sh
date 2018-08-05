@@ -1,4 +1,4 @@
 #!/bin/bash
 
-( while : ; do sleep 300000 ; echo -n . ; done ) &
+( while : ; do sleep 300 ; echo -n . ; done ) &
 $@
