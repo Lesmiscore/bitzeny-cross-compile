@@ -5,6 +5,7 @@ ARG REPO=cryptozeny/bitzeny
 ARG REF=yespower-0.5
 ARG BINARY=bitzeny
 ARG JOBS=2
+ARG BTC_DEPENDS_VER=0.16.1
 
 RUN mkdir /logs && mv /bin/sh /bin/sh.bak && ln -s /bin/bash /bin/sh
 
@@ -26,7 +27,7 @@ WORKDIR /${BINARY}
 
 RUN git checkout "$REF" && \
     rm -rf depends/ && \
-    wget -qO- https://github.com/bitcoin/bitcoin/archive/v0.16.1.tar.gz | tar -xvzf - --strip-components=1 --wildcards '*/depends' | wc -l && \
+    wget -qO- https://github.com/bitcoin/bitcoin/archive/v${BTC_DEPENDS_VER}.tar.gz | tar -xvzf - --strip-components=1 --wildcards '*/depends' | wc -l && \
     wget -qO depends/packages/qt.mk https://github.com/bitcoin/bitcoin/raw/master/depends/packages/qt.mk && \
     wget -qO depends/patches/qt/fix_configure_mac.patch https://github.com/bitcoin/bitcoin/raw/master/depends/patches/qt/fix_configure_mac.patch && \
     wget -qO depends/patches/qt/fix_no_printer.patch https://github.com/bitcoin/bitcoin/raw/master/depends/patches/qt/fix_no_printer.patch && \
@@ -43,6 +44,6 @@ RUN set -o pipefail && \
     ( ./autogen.sh && \
     CONFIG_SITE=depends/x86_64-w64-mingw32/share/config.site  \
       ./configure --without-miniupnpc --disable-tests && \
-    make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( ls && false )
+    make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( cat config.log && false )
 
 RUN ls src
