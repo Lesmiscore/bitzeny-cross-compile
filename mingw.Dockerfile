@@ -18,7 +18,7 @@ RUN set -o pipefail && \
     apt-get upgrade -y -qq && \
     apt-get install -y -qq build-essential \
       libtool autotools-dev autoconf \
-      pkg-config tree \
+      pkg-config tree zip \
       git curl bsdmainutils \
       g++-mingw-w64-x86-64 tar && \
     ( echo 1 | update-alternatives --config x86_64-w64-mingw32-g++ || true ) && \
@@ -32,12 +32,15 @@ RUN set -o pipefail && \
 
 WORKDIR ..
 
-RUN set -o pipefail && \
+RUN set -o pipefail && mkdir root && \
     ( ./autogen.sh && \
     CONFIG_SITE=$PWD/depends/x86_64-w64-mingw32/share/config.site  \
-      ./configure --without-miniupnpc --disable-tests --disable-bench && \
-    make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( cat config.log && false )
+      ./configure --without-miniupnpc --disable-tests --disable-bench \
+      --prefix=$PWD/root && \
+    make -j${JOBS} && make install ) 2>&1 | tee /logs/main.txt || ( cat config.log && false )
 
-RUN ( tree -fai src/ | grep '\.exe$' | sort | xargs ls -l --block-size=M ) && \
-    ( tree -fai src/ | grep '\.exe$' | sort | xargs x86_64-w64-mingw32-strip ; echo ) && \
-    ( tree -fai src/ | grep '\.exe$' | sort | xargs ls -l --block-size=M ) 
+RUN ( tree -fai root/ | grep '\.exe$' | sort | xargs ls -l --block-size=M ) && \
+    ( tree -fai root/ | grep '\.exe$' | sort | xargs x86_64-w64-mingw32-strip ; echo ) && \
+    ( tree -fai root/ | grep '\.exe$' | sort | xargs ls -l --block-size=M ) 
+
+RUN zip -9 -X -r bin.zip root/
