@@ -21,9 +21,9 @@ RUN set -o pipefail && \
       pkg-config tree \
       git curl bsdmainutils \
       g++-mingw-w64-x86-64 tar && \
-    echo 1 | update-alternatives --config x86_64-w64-mingw32-g++ && \
+    ( echo 1 | update-alternatives --config x86_64-w64-mingw32-g++ || true ) && \
     git clone https://github.com/${REPO}.git /${BINARY} -b ${REF} --depth=1 ) 2>&1 | tee /logs/setup.txt | wc -l \
-    || cat /logs/setup.txt
+    || ( cat /logs/setup.txt && false )
 
 WORKDIR /${BINARY}/depends
 
@@ -38,6 +38,6 @@ RUN set -o pipefail && \
       ./configure --without-miniupnpc --disable-tests --disable-bench && \
     make -j${JOBS} ) 2>&1 | tee /logs/main.txt || ( cat config.log && false )
 
-RUN ( tree -fai src/ | grep '\.exe$' | sort | xargs ls -l ) && \
-    ( tree -fai src/ | grep '\.exe$' | sort | xargs x86_64-w64-mingw32-strip ) && \
-    ( tree -fai src/ | grep '\.exe$' | sort | xargs ls -l ) 
+RUN ( tree -fai src/ | grep '\.exe$' | sort | xargs ls -l --block-size=M ) && \
+    ( tree -fai src/ | grep '\.exe$' | sort | xargs x86_64-w64-mingw32-strip ; echo ) && \
+    ( tree -fai src/ | grep '\.exe$' | sort | xargs ls -l --block-size=M ) 
