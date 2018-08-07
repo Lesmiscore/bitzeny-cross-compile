@@ -11,10 +11,14 @@ env:
     - PARENT=ubuntu:cosmic
     - PARENT=ubuntu:trusty
     - PARENT=ubuntu:xenial
+    - PARENT=debian:buster
+    - PARENT=debian:jessie
 
 matrix:
   allow_failures:
     - env: PARENT=ubuntu:trusty
+    - env: PARENT=debian:buster
+    - env: PARENT=debian:jessie
 
 script:
 - ./dots.sh docker build -f mingw.Dockerfile --build-arg JOBS=8 --build-arg PARENT=${PARENT} .

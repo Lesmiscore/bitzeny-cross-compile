@@ -21,11 +21,15 @@ RUN set -o pipefail && \
       pkg-config tree zip \
       git curl bsdmainutils \
       g++-mingw-w64-x86-64 tar && \
-    ( echo 1 | update-alternatives --config x86_64-w64-mingw32-g++ || true ) && \
-    git clone https://github.com/${REPO}.git /${BINARY} -b ${REF} --depth=1 ) 2>&1 | tee /logs/setup.txt | wc -l \
+    ( which x86_64-w64-mingw32-g++-posix && update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix || true ) && \
+    git clone https://github.com/${REPO}.git /${BINARY} ) 2>&1 | tee /logs/setup.txt | wc -l \
     || ( cat /logs/setup.txt && false )
 
-WORKDIR /${BINARY}/depends
+WORKDIR /${BINARY}
+
+RUN git checkout ${REF}
+
+WORKDIR depends
 
 RUN set -o pipefail && \
     make HOST=x86_64-w64-mingw32 -j${JOBS} 2>&1 | grep -v '^$' | tee /logs/depends.txt | wc -l || ( cat /logs/depends.txt && false )
