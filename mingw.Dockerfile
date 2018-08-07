@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # modify following ARGs to compile another variant
 ARG REPO=bitzenyPlus/BitZenyPlus
-ARG REF=feature/yespower-0.5
+ARG REF=v3.0-dev
 ARG BINARY=bitzeny
 ARG JOBS=2
 
