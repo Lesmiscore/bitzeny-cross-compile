@@ -7,8 +7,8 @@ notifications:
 
 env:
   matrix:
+    - PARENT=ubuntu:focal
     - PARENT=ubuntu:bionic
-    - PARENT=ubuntu:cosmic
     - PARENT=ubuntu:trusty
     - PARENT=ubuntu:xenial
     - PARENT=debian:buster
